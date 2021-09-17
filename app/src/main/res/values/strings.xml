@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Simple Todo</string>
+    <string name="add_a_new_todo_item">Add a new todo item</string>
+    <string name="empty_todo_list_message">You don\'t have any todo items, maybe try creating one?</string>
 </resources>
