@@ -1,16 +1,19 @@
 package com.zachtib.simpletodo.ui.todolist
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zachtib.simpletodo.R
 import com.zachtib.simpletodo.ui.edittodo.EditTodoActivity
+import com.zachtib.simpletodo.ui.todolistadapter.TodoListAdapter
 
 class TodoListActivity : AppCompatActivity() {
 
@@ -42,14 +45,38 @@ class TodoListActivity : AppCompatActivity() {
 
         // First, grab the UI elements that we care about
         val todoListRecyclerView = findViewById<RecyclerView>(R.id.todoListRecyclerView)
-        val addTodoButton = findViewById<Button>(R.id.addTodoButton)
+        val addTodoButton = findViewById<FloatingActionButton>(R.id.addTodoButton)
         val emptyMessage = findViewById<TextView>(R.id.emptyMessage)
 
         // Now, we want to configure our RecyclerView
-    }
 
-    private fun navigateToCreateTodo() {
-        val launchIntent = Intent(this, EditTodoActivity::class.java)
-        startActivity(launchIntent)
+        // First, we'll create an instance of our list adapter
+        val todoListAdapter = TodoListAdapter()
+
+        // Now we'll set a linear layout for the recycler, and attach the adapter
+        todoListRecyclerView.layoutManager = LinearLayoutManager(this)
+        todoListRecyclerView.adapter = todoListAdapter
+
+        // Now we'll observe our viewModel for changes to the data
+        viewModel.todoItems.observe(this) { todoItems ->
+            if (todoItems.isEmpty()) {
+                // Handle a special case where there are no todoItems
+                todoListRecyclerView.isVisible = false
+                emptyMessage.isVisible = true
+            } else {
+                // Set visibility here, in case the empty list case was handled previously
+                todoListRecyclerView.isVisible = true
+                emptyMessage.isVisible = false
+
+                // Submit the list of items to our list adapter
+                todoListAdapter.submitList(todoItems)
+            }
+        }
+
+        // Bind the addTodoButton's click event to go to the create todoItem screen
+        addTodoButton.setOnClickListener {
+            val launchIntent = Intent(this, EditTodoActivity::class.java)
+            startActivity(launchIntent)
+        }
     }
 }
