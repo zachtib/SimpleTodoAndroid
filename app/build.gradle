@@ -47,7 +47,7 @@ dependencies {
     def room_version = '2.4.0-alpha04'
 
     // Basic Android frameworks
-//    implementation "androidx.core:core-ktx:$core_version"
+    implementation "androidx.core:core-ktx:$core_version"
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation "com.google.android.material:material:$material_version"
