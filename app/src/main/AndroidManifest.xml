@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleTodo">
         <activity
+            android:name=".ui.edittodo.EditTodoActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.todolist.TodoListActivity"
             android:exported="true">
             <intent-filter>

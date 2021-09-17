@@ -20,6 +20,6 @@ class TodoListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.todo_list_activity)
+        setContentView(R.layout.activity_todo_list)
     }
 }
