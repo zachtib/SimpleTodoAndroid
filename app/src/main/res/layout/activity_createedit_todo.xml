@@ -51,7 +51,6 @@
                     android:id="@+id/titleEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hintTextColor="#757575"
                     android:singleLine="true"
                     tools:ignore="SpeakableTextPresentCheck"
                     tools:text="Do the thing" />
