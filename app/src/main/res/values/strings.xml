@@ -6,4 +6,5 @@
     <string name="description">Description</string>
     <string name="complete">Complete</string>
     <string name="title">Title</string>
+    <string name="add_a_todo">Add a Todo</string>
 </resources>
