@@ -72,8 +72,7 @@ class TodoListFragment : Fragment(R.layout.todo_list_fragment) {
     }
 
     private fun navigateToEditTodo(todoItem: TodoItem) {
-//        val launchIntent = Intent(this, EditTodoActivity::class.java)
-//        launchIntent.putExtra(EditTodoActivity.EDIT_TODO_ITEM_ID, todoItem.id)
-//        startActivity(launchIntent)
+        val action = TodoListFragmentDirections.navigateToEditTodo(todoItem.id)
+        findNavController().navigate(action)
     }
 }

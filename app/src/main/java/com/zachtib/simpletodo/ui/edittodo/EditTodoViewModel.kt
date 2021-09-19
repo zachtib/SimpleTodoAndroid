@@ -1,16 +1,26 @@
 package com.zachtib.simpletodo.ui.edittodo
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.zachtib.simpletodo.data.TodoItemDao
 import com.zachtib.simpletodo.models.TodoItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import timber.log.Timber
+import javax.inject.Inject
 
-class EditTodoViewModel(
-    private val editingTodoItemId: Int,
+
+@HiltViewModel
+class EditTodoViewModel @Inject constructor(
     private val dao: TodoItemDao,
+    state: SavedStateHandle, // We'll get our itemId from here
 ) : ViewModel() {
+
+    // Since we're not creating our ViewModel by hand anymore, we'll use a SavedStateHandle, which
+    // is provided to us by Hilt, in order to get the value for `todoItemId` that was used when
+    // this screen was navigated to. If the value is missing, we'll throw an IllegalStateException,
+    // because there should be no way this can happen.
+    private val editingTodoItemId: Int = state.get("todoItemId")
+        ?: throw IllegalStateException("EditTodoViewModel was initialized with no value for todoItemId")
 
     companion object {
         // We'll use these constants to indicate the result of our editing.
@@ -70,7 +80,7 @@ class EditTodoViewModel(
                 dao.delete(todoItem)
                 mutableEditingComplete.value = ITEM_DELETED
             } catch (e: Exception) {
-                Log.e("EditTodoViewModel", "Error deleting TodoItem", e)
+                Timber.e(e, "Error deleting TodoItem")
                 mutableSaveButtonEnabled.value = true
                 mutableDeleteButtonEnabled.value = true
             }
@@ -96,7 +106,7 @@ class EditTodoViewModel(
                 dao.update(updatedTodoItem)
                 mutableEditingComplete.value = ITEM_SAVED
             } catch (e: Exception) {
-                Log.e("EditTodoViewModel", "Error saving TodoItem", e)
+                Timber.e(e, "Error saving TodoItem")
                 mutableSaveButtonEnabled.value = true
                 mutableDeleteButtonEnabled.value = true
             }
