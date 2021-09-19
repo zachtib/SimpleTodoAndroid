@@ -6,11 +6,14 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.zachtib.simpletodo.data.TodoItemDao
 import com.zachtib.simpletodo.models.TodoItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
-class TodoListViewModel(
+@HiltViewModel
+class TodoListViewModel @Inject constructor(
     private val dao: TodoItemDao
 ) : ViewModel() {
 

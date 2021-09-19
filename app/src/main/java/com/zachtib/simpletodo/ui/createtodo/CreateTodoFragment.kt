@@ -11,23 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.zachtib.simpletodo.R
 import com.zachtib.simpletodo.data.SimpleTodoDatabase
 
-class CreateTodoActivity : AppCompatActivity() {
+class CreateTodoFragment : AppCompatActivity() {
 
     // A delegate call, just like in TodoListActivity
-    private val viewModel by viewModels<CreateTodoViewModel> {
-
-        // Get or create our database
-        val database = SimpleTodoDatabase.getInstance(this)
-
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                // Suppressing a warning, this object will only ever be used to
-                // create CreateTodoViewModels
-                @Suppress("UNCHECKED_CAST")
-                return CreateTodoViewModel(database.todoItemDao()) as T
-            }
-        }
-    }
+    private val viewModel by viewModels<CreateTodoViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

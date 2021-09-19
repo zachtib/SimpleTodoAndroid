@@ -7,9 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zachtib.simpletodo.data.TodoItemDao
 import com.zachtib.simpletodo.models.TodoItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CreateTodoViewModel(
+
+@HiltViewModel
+class CreateTodoViewModel @Inject constructor(
     private val dao: TodoItemDao,
 ) : ViewModel() {
 

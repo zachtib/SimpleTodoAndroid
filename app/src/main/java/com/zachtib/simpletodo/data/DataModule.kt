@@ -24,5 +24,7 @@ class DataModule {
     }
 
     @Provides
-    fun provideTodoItemDao(db: SimpleTodoDatabase) = db.todoItemDao()
+    fun provideTodoItemDao(db: SimpleTodoDatabase): TodoItemDao {
+        return db.todoItemDao()
+    }
 }
