@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.zachtib.simpletodo.data.TodoItemDao
+import com.zachtib.simpletodo.data.TodoItemRepository
 import com.zachtib.simpletodo.models.TodoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
@@ -14,11 +14,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TodoListViewModel @Inject constructor(
-    private val dao: TodoItemDao
+    private val repository: TodoItemRepository
 ) : ViewModel() {
 
     val todoItems: LiveData<List<TodoItem>> = liveData {
-        dao.loadTodoItems().collect { items ->
+        repository.loadTodoItems().collect { items ->
             emit(items)
         }
     }
@@ -29,7 +29,7 @@ class TodoListViewModel @Inject constructor(
 
         viewModelScope.launch {
             // Then store the item in the database.
-            dao.update(updatedItem)
+            repository.update(updatedItem)
         }
     }
 }
