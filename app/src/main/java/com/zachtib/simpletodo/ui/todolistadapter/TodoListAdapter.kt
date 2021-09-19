@@ -3,7 +3,7 @@ package com.zachtib.simpletodo.ui.todolistadapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
-import com.zachtib.simpletodo.R
+import com.zachtib.simpletodo.databinding.TodoListItemBinding
 import com.zachtib.simpletodo.models.TodoItem
 
 
@@ -24,10 +24,10 @@ class TodoListAdapter(
 
         // Inflate our list item inside of parent, but don't attach (yet), RecyclerView will handle
         // that for us.
-        val itemView = layoutInflater.inflate(R.layout.item_todoitem, parent, false)
+        val binding = TodoListItemBinding.inflate(layoutInflater, parent, false)
 
         // Wrap the inflated view in our ViewHolder class and return it.
-        return TodoListViewHolder(itemView, itemClickCallback, itemCheckedChangeCallback)
+        return TodoListViewHolder(binding, itemClickCallback, itemCheckedChangeCallback)
     }
 
     override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
