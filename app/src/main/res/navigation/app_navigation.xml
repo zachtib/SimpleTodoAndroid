@@ -9,5 +9,14 @@
         android:id="@+id/todoListFragment"
         android:name="com.zachtib.simpletodo.ui.todolist.TodoListFragment"
         android:label="todo_list_fragment"
-        tools:layout="@layout/todo_list_fragment" />
+        tools:layout="@layout/todo_list_fragment" >
+        <action
+            android:id="@+id/navigateToCreateTodo"
+            app:destination="@id/createTodoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTodoFragment"
+        android:name="com.zachtib.simpletodo.ui.createtodo.CreateTodoFragment"
+        android:label="CreateTodoFragment"
+        tools:layout="@layout/create_todo_fragment"/>
 </navigation>

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zachtib.simpletodo.R
 import com.zachtib.simpletodo.databinding.TodoListFragmentBinding
@@ -32,7 +33,7 @@ class TodoListFragment : Fragment(R.layout.todo_list_fragment) {
         // check events will be passed to the ViewModel, as it needs to update the
         // underlying data.
         val todoListAdapter = TodoListAdapter(
-            itemClickCallback = this::onItemClicked,
+            itemClickCallback = this::navigateToEditTodo,
             itemCheckedChangeCallback = viewModel::onItemChecked,
         )
 
@@ -60,14 +61,17 @@ class TodoListFragment : Fragment(R.layout.todo_list_fragment) {
 
             // Bind the addTodoButton's click event to go to the create todoItem screen
             addTodoButton.setOnClickListener {
-//                val launchIntent = Intent(this, CreateTodoFragment::class.java)
-//                startActivity(launchIntent)
+                navigateToCreateTodo()
             }
         }
-
     }
 
-    private fun onItemClicked(todoItem: TodoItem) {
+    private fun navigateToCreateTodo() {
+        val action = TodoListFragmentDirections.navigateToCreateTodo()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToEditTodo(todoItem: TodoItem) {
 //        val launchIntent = Intent(this, EditTodoActivity::class.java)
 //        launchIntent.putExtra(EditTodoActivity.EDIT_TODO_ITEM_ID, todoItem.id)
 //        startActivity(launchIntent)
