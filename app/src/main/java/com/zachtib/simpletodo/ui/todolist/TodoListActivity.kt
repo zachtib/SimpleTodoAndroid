@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zachtib.simpletodo.R
 import com.zachtib.simpletodo.data.SimpleTodoDatabase
+import com.zachtib.simpletodo.models.TodoItem
 import com.zachtib.simpletodo.ui.createtodo.CreateTodoActivity
+import com.zachtib.simpletodo.ui.edittodo.EditTodoActivity
 import com.zachtib.simpletodo.ui.todolistadapter.TodoListAdapter
 
 class TodoListActivity : AppCompatActivity() {
@@ -54,8 +56,15 @@ class TodoListActivity : AppCompatActivity() {
 
         // Now, we want to configure our RecyclerView
 
-        // First, we'll create an instance of our list adapter
-        val todoListAdapter = TodoListAdapter()
+        // First, we'll create an instance of our list adapter, passing in callbacks
+        // for itemClicked and itemChecked events. The click events will be handled
+        // by this Activity, because they will result in a navigation event, but the
+        // check events will be passed to the ViewModel, as it needs to update the
+        // underlying data.
+        val todoListAdapter = TodoListAdapter(
+            itemClickCallback = this::onItemClicked,
+            itemCheckedChangeCallback = viewModel::onItemChecked,
+        )
 
         // Now we'll set a linear layout for the recycler, and attach the adapter
         todoListRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -82,5 +91,11 @@ class TodoListActivity : AppCompatActivity() {
             val launchIntent = Intent(this, CreateTodoActivity::class.java)
             startActivity(launchIntent)
         }
+    }
+
+    private fun onItemClicked(todoItem: TodoItem) {
+        val launchIntent = Intent(this, EditTodoActivity::class.java)
+        launchIntent.putExtra(EditTodoActivity.EDIT_TODO_ITEM_ID, todoItem.id)
+        startActivity(launchIntent)
     }
 }

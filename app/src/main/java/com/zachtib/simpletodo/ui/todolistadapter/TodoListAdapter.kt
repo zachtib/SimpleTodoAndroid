@@ -12,7 +12,11 @@ import com.zachtib.simpletodo.models.TodoItem
 // for us. We just need to help it by providing functionality to create new view holders, to
 // bind data to those view holders, and to compare items in the list (done via TodoItemDiffCallback)
 // in order to determine when items change.
-class TodoListAdapter : ListAdapter<TodoItem, TodoListViewHolder>(TodoItemDiffCallback()) {
+class TodoListAdapter(
+    private val itemClickCallback: (TodoItem) -> Unit,
+    private val itemCheckedChangeCallback: (TodoItem, Boolean) -> Unit,
+) : ListAdapter<TodoItem, TodoListViewHolder>(TodoItemDiffCallback()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
 
         // Get an instance of LayoutInflater from our parent, so we can inflate layout files
@@ -23,7 +27,7 @@ class TodoListAdapter : ListAdapter<TodoItem, TodoListViewHolder>(TodoItemDiffCa
         val itemView = layoutInflator.inflate(R.layout.item_todoitem, parent, false)
 
         // Wrap the inflated view in our ViewHolder class and return it.
-        return TodoListViewHolder(itemView)
+        return TodoListViewHolder(itemView, itemClickCallback, itemCheckedChangeCallback)
     }
 
     override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
