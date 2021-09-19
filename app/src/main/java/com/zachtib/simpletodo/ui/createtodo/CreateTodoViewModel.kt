@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zachtib.simpletodo.data.TodoItemDao
+import com.zachtib.simpletodo.models.TodoItem
 import kotlinx.coroutines.launch
 
 class CreateTodoViewModel(
-
+    private val dao: TodoItemDao,
 ) : ViewModel() {
 
     // Our private, mutable state
@@ -41,7 +43,13 @@ class CreateTodoViewModel(
         mutableSaveButtonEnabled.value = false
         viewModelScope.launch {
             try {
-                // TODO: Perform the save operation
+                val newTodoItem = TodoItem(
+                    id = 0,
+                    title = todoItemTitle,
+                    isComplete = false,
+                    description = todoItemDescription
+                )
+                dao.insert(newTodoItem)
                 mutableSaveComplete.value = true
             } catch (e: Exception) {
                 // Something went wrong, re-enable the save button

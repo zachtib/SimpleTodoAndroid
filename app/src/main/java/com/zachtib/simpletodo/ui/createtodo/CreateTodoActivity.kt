@@ -11,17 +11,22 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zachtib.simpletodo.R
+import com.zachtib.simpletodo.data.SimpleTodoDatabase
 
 class CreateTodoActivity : AppCompatActivity() {
 
     // A delegate call, just like in TodoListActivity
     private val viewModel by viewModels<CreateTodoViewModel> {
+
+        // Get or create our database
+        val database = SimpleTodoDatabase.getInstance(this)
+
         object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 // Suppressing a warning, this object will only ever be used to
                 // create CreateTodoViewModels
                 @Suppress("UNCHECKED_CAST")
-                return CreateTodoViewModel() as T
+                return CreateTodoViewModel(database.todoItemDao()) as T
             }
         }
     }
