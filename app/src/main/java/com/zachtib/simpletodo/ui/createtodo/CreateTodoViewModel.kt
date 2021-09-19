@@ -23,23 +23,18 @@ class CreateTodoViewModel(
     val saveButtonEnabled: LiveData<Boolean> = mutableSaveButtonEnabled
     val saveComplete: LiveData<Boolean> = mutableSaveComplete
 
-    // These functions take in nullable CharSequences because that is what EditTexts give us,
-    // so the ViewModel will handle converting them back into Strings
-    fun onTitleChanged(newValue: CharSequence?) {
-        // Covert the newValue back to a String, or use empty string if it is null
-        todoItemTitle = newValue?.toString() ?: ""
+    fun onTitleChanged(newValue: String) {
+        todoItemTitle = newValue
 
         // We only want to allow saving if the user has entered some text for title
         mutableSaveButtonEnabled.value = todoItemTitle.isNotBlank()
     }
 
-    fun onDescriptionChanged(newValue: CharSequence?) {
-        todoItemDescription = newValue?.toString() ?: ""
+    fun onDescriptionChanged(newValue: String) {
+        todoItemDescription = newValue
     }
 
-    // Adding an ignored parameter to this function so it matches a
-    // Button's ClickListener
-    fun onSavePressed(ignored: Any? = null) {
+    fun onSavePressed() {
         // Disable the save button while we are performing the save
         mutableSaveButtonEnabled.value = false
         viewModelScope.launch {

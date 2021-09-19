@@ -3,7 +3,6 @@ package com.zachtib.simpletodo.ui.createtodo
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -46,14 +45,20 @@ class CreateTodoActivity : AppCompatActivity() {
         }
 
         // Bind the two EditText fields and save button to our ViewModel
-        titleEditText.doAfterTextChanged(viewModel::onTitleChanged)
-        descriptionEditText.doAfterTextChanged(viewModel::onDescriptionChanged)
-        saveButton.setOnClickListener(viewModel::onSavePressed)
+        titleEditText.doAfterTextChanged { text ->
+            viewModel.onTitleChanged(text?.toString() ?: "")
+        }
+        descriptionEditText.doAfterTextChanged { text ->
+            viewModel.onDescriptionChanged(text?.toString() ?: "")
+        }
+        saveButton.setOnClickListener {
+            viewModel.onSavePressed()
+        }
 
         // Observe this value to know when saving is complete.
         viewModel.saveComplete.observe(this) { saveWasSuccessful ->
+            // Check that the save was successful, and if so, close the screen
             if (saveWasSuccessful) {
-                // Check that the save was successful, and if so, close the screen
                 finish()
             }
         }
