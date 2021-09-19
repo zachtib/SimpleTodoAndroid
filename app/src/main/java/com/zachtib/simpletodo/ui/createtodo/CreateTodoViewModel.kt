@@ -1,5 +1,6 @@
 package com.zachtib.simpletodo.ui.createtodo
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -52,6 +53,7 @@ class CreateTodoViewModel(
                 dao.insert(newTodoItem)
                 mutableSaveComplete.value = true
             } catch (e: Exception) {
+                Log.e("CreateTodoViewModel", "Error creating TodoItem", e)
                 // Something went wrong, re-enable the save button
                 mutableSaveButtonEnabled.value = true
             }

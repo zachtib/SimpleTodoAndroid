@@ -2,7 +2,6 @@ package com.zachtib.simpletodo.ui.createtodo
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -33,16 +32,12 @@ class CreateTodoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_createedit_todo)
+        setContentView(R.layout.activity_create_todo)
 
         // As usual, get all of our UI elements with findViewById
-        val editTodoItemHeader = findViewById<TextView>(R.id.editTodoItemHeader)
         val titleEditText = findViewById<EditText>(R.id.titleEditText)
         val descriptionEditText = findViewById<EditText>(R.id.descriptionEditText)
         val saveButton = findViewById<Button>(R.id.saveButton)
-
-        // Set the header, because it's not set in the layout XML
-        editTodoItemHeader.text = getString(R.string.add_a_todo)
 
         // We observe this value so the viewModel can disable the button
         // (ie, while saving is in progress)
