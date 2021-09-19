@@ -1,5 +1,17 @@
 # Simple Todo
 
+This is a refactoring of this app as it exists on `main`. The changes include:
+ - Migrating from a multi-activity pattern to a single activity pattern with fragments
+ - Using the Android Navigation Component to define and perform navigation in the app
+ - Use ViewBinding rather than manually calling `findViewById`
+ - Use Dagger/Hilt for dependency injection in the app
+ - Use Timber for logging rather than the default Android.Log
+
+The functionality of the app overall hasn't changed, but this is now a more accurate
+example of what I would consider best practices when developing modern Android apps.
+
+## Original README contents are below
+
 Written as an example for Code Louisville's September 2021 Android course
 
 ## Summary
