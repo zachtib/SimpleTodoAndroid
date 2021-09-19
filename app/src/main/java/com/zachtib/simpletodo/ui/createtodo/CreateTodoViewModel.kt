@@ -1,6 +1,5 @@
 package com.zachtib.simpletodo.ui.createtodo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +8,7 @@ import com.zachtib.simpletodo.data.TodoItemDao
 import com.zachtib.simpletodo.models.TodoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -52,7 +52,7 @@ class CreateTodoViewModel @Inject constructor(
                 dao.insert(newTodoItem)
                 mutableSaveComplete.value = true
             } catch (e: Exception) {
-                Log.e("CreateTodoViewModel", "Error creating TodoItem", e)
+                Timber.e(e, "Error creating TodoItem")
                 // Something went wrong, re-enable the save button
                 mutableSaveButtonEnabled.value = true
             }
