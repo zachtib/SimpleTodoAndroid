@@ -20,11 +20,11 @@ class TodoListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
 
         // Get an instance of LayoutInflater from our parent, so we can inflate layout files
-        val layoutInflator = LayoutInflater.from(parent.context)
+        val layoutInflater = LayoutInflater.from(parent.context)
 
         // Inflate our list item inside of parent, but don't attach (yet), RecyclerView will handle
         // that for us.
-        val itemView = layoutInflator.inflate(R.layout.item_todoitem, parent, false)
+        val itemView = layoutInflater.inflate(R.layout.item_todoitem, parent, false)
 
         // Wrap the inflated view in our ViewHolder class and return it.
         return TodoListViewHolder(itemView, itemClickCallback, itemCheckedChangeCallback)
