@@ -12,13 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.zachtib.simpletodo.R
-import com.zachtib.simpletodo.ui.edittodo.EditTodoActivity
+import com.zachtib.simpletodo.data.SimpleTodoDatabase
+import com.zachtib.simpletodo.ui.createtodo.CreateTodoActivity
 import com.zachtib.simpletodo.ui.todolistadapter.TodoListAdapter
 
 class TodoListActivity : AppCompatActivity() {
 
     // A delegate call to either create, or grab our existing viewmodel
     private val viewModel by viewModels<TodoListViewModel> {
+
+        // Get or create our database
+        val database = SimpleTodoDatabase.getInstance(this)
 
         // This function expects a ViewModel Factory, or something that will be used
         // to create the ViewModel the first time we need it, so we will provide a
@@ -34,7 +38,7 @@ class TodoListActivity : AppCompatActivity() {
                 // Suppressing a warning, this object will only ever be used to
                 // create TodoListViewModels
                 @Suppress("UNCHECKED_CAST")
-                return TodoListViewModel() as T
+                return TodoListViewModel(database.todoItemDao()) as T
             }
         }
     }
@@ -75,7 +79,7 @@ class TodoListActivity : AppCompatActivity() {
 
         // Bind the addTodoButton's click event to go to the create todoItem screen
         addTodoButton.setOnClickListener {
-            val launchIntent = Intent(this, EditTodoActivity::class.java)
+            val launchIntent = Intent(this, CreateTodoActivity::class.java)
             startActivity(launchIntent)
         }
     }

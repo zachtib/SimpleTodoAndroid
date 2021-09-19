@@ -3,14 +3,16 @@ package com.zachtib.simpletodo.ui.todolist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import com.zachtib.simpletodo.data.TodoItemDao
 import com.zachtib.simpletodo.models.TodoItem
+import kotlinx.coroutines.flow.collect
 
-class TodoListViewModel : ViewModel() {
+class TodoListViewModel(
+    private val dao: TodoItemDao
+) : ViewModel() {
     val todoItems: LiveData<List<TodoItem>> = liveData {
-        emit(listOf(
-            TodoItem(1, "Set up Room", false, ""),
-            TodoItem(2, "Put some data in it", false, ""),
-            TodoItem(3, "Replace this dummy code", false, ""),
-        ))
+        dao.loadTodoItems().collect { items ->
+            emit(items)
+        }
     }
 }
