@@ -1,16 +1,19 @@
 package com.zachtib.simpletodo.ui.createtodo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zachtib.simpletodo.data.TodoItemDao
-import com.zachtib.simpletodo.models.TodoItem
+import com.zachtib.simpletodo.data.TodoItemRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
-class CreateTodoViewModel(
-    private val dao: TodoItemDao,
+
+@HiltViewModel
+class CreateTodoViewModel @Inject constructor(
+    private val repository: TodoItemRepository,
 ) : ViewModel() {
 
     // Our private, mutable state
@@ -39,16 +42,10 @@ class CreateTodoViewModel(
         mutableSaveButtonEnabled.value = false
         viewModelScope.launch {
             try {
-                val newTodoItem = TodoItem(
-                    id = 0,
-                    title = todoItemTitle,
-                    isComplete = false,
-                    description = todoItemDescription
-                )
-                dao.insert(newTodoItem)
+                repository.createTodoItem(todoItemTitle, todoItemDescription)
                 mutableSaveComplete.value = true
             } catch (e: Exception) {
-                Log.e("CreateTodoViewModel", "Error creating TodoItem", e)
+                Timber.e(e, "Error creating TodoItem")
                 // Something went wrong, re-enable the save button
                 mutableSaveButtonEnabled.value = true
             }

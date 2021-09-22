@@ -7,7 +7,9 @@
         <entry key="app/src/main/res/layout/activity_createedit_todo.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/activity_edit_todo.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_todo_list.xml" value="0.15024630541871922" />
+        <entry key="app/src/main/res/layout/edit_todo_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_todoitem.xml" value="0.4036458333333333" />
+        <entry key="app/src/main/res/layout/main_activity.xml" value="0.10638297872340426" />
         <entry key="app/src/main/res/layout/todo_list_activity.xml" value="0.2989583333333333" />
       </map>
     </option>

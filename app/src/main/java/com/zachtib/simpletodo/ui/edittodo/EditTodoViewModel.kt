@@ -1,15 +1,19 @@
 package com.zachtib.simpletodo.ui.edittodo
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.zachtib.simpletodo.data.TodoItemDao
+import com.zachtib.simpletodo.data.TodoItemRepository
 import com.zachtib.simpletodo.models.TodoItem
+import com.zachtib.simpletodo.ui.TodoItemId
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.lang.Exception
+import timber.log.Timber
+import javax.inject.Inject
 
-class EditTodoViewModel(
-    private val editingTodoItemId: Int,
-    private val dao: TodoItemDao,
+
+@HiltViewModel
+class EditTodoViewModel @Inject constructor(
+    private val repository: TodoItemRepository,
+    @TodoItemId private val editingTodoItemId: Int,
 ) : ViewModel() {
 
     companion object {
@@ -36,7 +40,7 @@ class EditTodoViewModel(
     // all that much about observing changes to it, we just want to fetch
     // it once to fill in the values on the form.
     val editingTodoItem: LiveData<TodoItem> = liveData {
-        val todoItem = dao.getTodoItem(editingTodoItemId)
+        val todoItem = repository.getTodoItem(editingTodoItemId)
         emit(todoItem)
         // We'll also enable the delete button once loading is complete.
         mutableDeleteButtonEnabled.value = true
@@ -67,10 +71,10 @@ class EditTodoViewModel(
 
         viewModelScope.launch {
             try {
-                dao.delete(todoItem)
+                repository.delete(todoItem)
                 mutableEditingComplete.value = ITEM_DELETED
             } catch (e: Exception) {
-                Log.e("EditTodoViewModel", "Error deleting TodoItem", e)
+                Timber.e(e, "Error deleting TodoItem")
                 mutableSaveButtonEnabled.value = true
                 mutableDeleteButtonEnabled.value = true
             }
@@ -93,10 +97,10 @@ class EditTodoViewModel(
 
         viewModelScope.launch {
             try {
-                dao.update(updatedTodoItem)
+                repository.update(updatedTodoItem)
                 mutableEditingComplete.value = ITEM_SAVED
             } catch (e: Exception) {
-                Log.e("EditTodoViewModel", "Error saving TodoItem", e)
+                Timber.e(e, "Error saving TodoItem")
                 mutableSaveButtonEnabled.value = true
                 mutableDeleteButtonEnabled.value = true
             }
